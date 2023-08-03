@@ -1,4 +1,5 @@
 {
+  "homepage": ".",
   "name": "star-watch",
   "version": "0.1.0",
   "private": true,
@@ -41,8 +42,11 @@
   },
   "react-dotenv": {
     "whitelist": [
-      "MAPQUEST_API_DOMAIN",
-      "MAPQUEST_API_KEY"
+      "MAPQUEST_DOMAIN",
+      "MAPQUEST_API_KEY",
+      "OPENWEATHERMAP_DOMAIN",
+      "OPENWEATHERMAP_API_KEY"
     ]
-  }
+  },
+  "proxy": "http://api.openweathermap.org"
 }
