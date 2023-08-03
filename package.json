@@ -45,7 +45,9 @@
       "MAPQUEST_DOMAIN",
       "MAPQUEST_API_KEY",
       "OPENWEATHERMAP_DOMAIN",
-      "OPENWEATHERMAP_API_KEY"
+      "OPENWEATHERMAP_API_KEY",
+      "IPGEOLOCATION_DOMAIN",
+      "IPGEOLOCATION_API_KEY"
     ]
   },
   "proxy": "http://api.openweathermap.org"

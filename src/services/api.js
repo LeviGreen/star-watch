@@ -19,6 +19,14 @@ export default () => {
           'X-Api-Key': env.OPENWEATHERMAP_API_KEY
         }
       }
+    ),
+    getMoonData: (lat, long) =>
+      fetch(`${env.IPGEOLOCATION_DOMAIN}/astronomy?apiKey=${env.IPGEOLOCATION_API_KEY}&lat=${lat}&long=${long}`, {
+      method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
     )
   };
 };
