@@ -5,10 +5,25 @@ import './index.css';
 import apiService from "../services/api";
 
 function App() {
-
-  const [location, setLocation] = useState()
+  const [location, setLocation] = useState(null)
   const [locationSuggestions, setLocationSuggestions] = useState(null)
-  const [weatherData, setWeatherData] = useState(null)
+  const [forecastData, setForecastData] = useState(null)
+  const [moonData, setMoonData] = useState(null)
+
+  const onInputChange = (value) => {
+    if(value.length < 2) { return null; }
+
+    getLocationPredictions(value)
+  }
+
+  const onButtonClick = () => {
+    if(location == null) { return null; }
+
+    var lat = location.place.geometry.coordinates[1]
+    var lon = location.place.geometry.coordinates[0]
+    getForecast(lat, lon);
+    getMoonData(lat, lon);
+  }
 
   function formatSuggestions(results) {
     var suggestions = []
@@ -21,10 +36,8 @@ function App() {
     return suggestions;
   }
 
-  const onInputChange = (value) => {
-    if(value.length < 2) { return null; }
-
-    apiService().getLocationPredictions(value).then((res) => {
+  function getLocationPredictions(q) {
+    apiService().getLocationPredictions(q).then((res) => {
       return res.json();
     }).then((body) => {
       var suggestions = formatSuggestions(body.results)
@@ -35,15 +48,21 @@ function App() {
     })
   }
 
-  const onButtonClick = () => {
-    if(location == null) { return null; }
-    
-    var lat = location.place.geometry.coordinates[1]
-    var lon = location.place.geometry.coordinates[0]
+  function getForecast(lat, lon) {
     apiService().getForecast(lat, lon).then((res) => {
       return res.json();
     }).then((body) => {
-      setWeatherData(body)
+      setForecastData(body)
+    }).catch((e) => {
+      console.log(e);
+    })
+  }
+
+  function getMoonData(lat, lon) {
+    apiService().getMoonData(lat, lon).then((res) => {
+      return res.json();
+    }).then((body) => {
+      setMoonData(body)
     }).catch((e) => {
       console.log(e);
     })
@@ -62,7 +81,8 @@ function App() {
           />
           <Button onClick={onButtonClick}>Submit</Button>
         </Card>
-        {weatherData != null ? <Card><textarea>{JSON.stringify(weatherData)}</textarea></Card> : <></>}
+        {forecastData != null ? <Card><textarea>{JSON.stringify(forecastData)}</textarea></Card> : <></>}
+        {moonData != null ? <Card><textarea>{JSON.stringify(moonData)}</textarea></Card> : <></>}
       </header>
     </div>
   );
